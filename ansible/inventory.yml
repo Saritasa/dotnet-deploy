@@ -1,0 +1,18 @@
+appservers:
+  hosts:
+    app.saritasa.local:
+      service_username: '{{ ansible_user }}'
+      service_password: '{{ ansible_password }}'
+  vars:
+    ansible_become_method: runas
+    ansible_become_user: '{{ ansible_user }}'
+    ansible_become_pass: '{{ ansible_password }}'
+    ansible_connection: winrm
+    ansible_winrm_server_cert_validation: ignore
+    ansible_winrm_transport: ntlm
+
+    ansible_user: administrator
+    ansible_password:
+
+#    ansible_winrm_cert_pem: /path/to/certificate/public/key.pem
+#    ansible_winrm_cert_key_pem: /path/to/certificate/private/key.pem

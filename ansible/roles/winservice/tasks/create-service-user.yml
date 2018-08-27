@@ -1,0 +1,10 @@
+- name: Create service user
+  win_user:
+    name: '{{service_username}}'
+    password: '{{service_password}}'
+- name: Grant logon as a service privilege
+  win_user_right:
+    name: SeServiceLogonRight
+    users:
+      - '{{service_username}}'
+    action: add

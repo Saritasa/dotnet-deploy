@@ -262,3 +262,4 @@ __pycache__/
 Config.Development.ps1
 App.config
 App.Development.config
+*.retry
