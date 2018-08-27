@@ -1,0 +1,9 @@
+- name: Install .NET 4.7.2
+  win_chocolatey:
+    name: dotnet4.7.2
+  register: ndp_result
+- debug:
+    var: ndp_result
+- name: Restart server
+  win_reboot:
+  when: ndp_result.changed and ndp_result.rc == 3010

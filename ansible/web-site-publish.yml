@@ -1,0 +1,77 @@
+- win_file:
+    path: C:\Distr\WebDeploy
+    state: directory
+
+- win_get_url:
+    url: https://github.com/Saritasa/PSGallery/raw/4e73389287e517b73c3c5d5a14d552b336953412/scripts/WebDeploy/AddDelegationRules.ps1
+    dest: C:\Distr\WebDeploy\AddDelegationRules.ps1
+  register: add_delegation_rules_result
+
+- win_get_url:
+    url: https://github.com/Saritasa/PSGallery/raw/839540b9bb06372832ffd48d328ffbdd4db391cc/scripts/WebDeploy/SetupSiteForPublish.ps1
+    dest: C:\Distr\WebDeploy\SetupSiteForPublish.ps1
+  register: setup_site_for_publish_result
+
+- name: Add WebDeploy delegation rules
+  win_shell: |
+    $InformationPreference = 'Continue'
+
+    $inetsrvPath = "$($env:windir)\system32\inetsrv"
+    [System.Reflection.Assembly]::LoadFrom("$inetsrvPath\Microsoft.Web.Administration.dll") | Out-Null
+    $serverManager = New-Object Microsoft.Web.Administration.ServerManager
+
+    $rulesCount = $serverManager.GetAdministrationConfiguration().GetSection("system.webServer/management/delegation").GetCollection().Count
+
+    Write-Information "Found $rulesCount delegation rules."
+
+    if (!$rulesCount)
+    {
+        & '{{add_delegation_rules_result.dest}}'
+    }
+
+- fail:
+    msg: "deploy_password is required."
+  when: deploy_password is none
+
+- name: Deploy user
+  win_user:
+    name: '{{deploy_username}}'
+    password: '{{deploy_password}}'
+    password_never_expires: yes
+
+- name: Set up site for publish
+  win_shell: |
+    $InformationPreference = 'Continue'
+
+    # Create a job as a workaround for PowerShell crash.
+    # https://serverfault.com/questions/587305/powershell-has-stopped-working-on-ps-exit-after-creating-iis-user
+    $jobScript = `
+        {
+            $inetsrvPath = "$($env:windir)\system32\inetsrv"
+            [System.Reflection.Assembly]::LoadFrom("$inetsrvPath\Microsoft.Web.Management.dll") | Out-Null
+            $count = [Microsoft.Web.Management.Server.ManagementAuthorization]::GetAuthorizedUsers(
+                '{{site_name}}', $false, 0, [int]::MaxValue).Count
+
+            Write-Information "Found $count authorized users."
+
+            if (!$count)
+            {
+                & '{{setup_site_for_publish_result.dest}}' -siteName {{site_name}} `
+                    -deploymentUserName {{deploy_username}} `
+                    -publishSettingSavePath $env:TEMP `
+                    -sitePhysicalPath '{{site_root}}'
+            }
+        }
+
+    $job = Start-Job $jobScript
+    Receive-Job $job -Wait
+
+- name: WDeployAdmin user
+  win_user:
+    name: WDeployAdmin
+    password_never_expires: yes
+
+- name: WDeployConfigWriter user
+  win_user:
+    name: WDeployConfigWriter
+    password_never_expires: yes

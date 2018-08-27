@@ -263,3 +263,4 @@ Config.Development.ps1
 Web.config
 Web.Development.config
 *.bak
+*.retry

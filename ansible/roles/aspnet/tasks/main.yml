@@ -1,0 +1,5 @@
+- import_tasks: iis-aspnet45.yml
+- import_tasks: remove-default-sites.yml
+- import_tasks: dotnet-472.yml
+- import_tasks: web-management-service.yml
+- import_tasks: web-deploy.yml
