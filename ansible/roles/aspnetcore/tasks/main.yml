@@ -1,0 +1,5 @@
+- import_tasks: iis.yml
+- import_tasks: dotnetcore-wsh-21.yml
+- import_tasks: remove-default-sites.yml
+- import_tasks: web-management-service.yml
+- import_tasks: web-deploy.yml

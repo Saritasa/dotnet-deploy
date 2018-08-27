@@ -1,0 +1,15 @@
+- name: Install .NET Core Runtime
+  win_chocolatey:
+    name: dotnetcore-runtime
+    version: 2.1.2
+  become: yes
+  register: runtime_result
+- name: Install .NET Core Windows Server Hosting
+  win_chocolatey:
+    name: dotnetcore-windowshosting
+    version: 2.1.2
+  become: yes
+  register: hosting_result
+- name: Restart server
+  win_reboot:
+  when: (runtime_result.rc is defined and runtime_result.rc == 3010) or (hosting_result.rc is defined and hosting_result.rc == 3010)

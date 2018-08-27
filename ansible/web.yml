@@ -1,0 +1,27 @@
+- hosts: webservers
+  roles:
+    - aspnetcore
+  vars:
+    site_root: 'C:\inetpub\wwwroot\{{site_name}}'
+  tasks:
+    - name: Create app pool
+      win_iis_webapppool:
+        name: '{{app_pool}}'
+        attributes:
+          managedRuntimeVersion:
+    - name: Create web site directory
+      win_file:
+        path: '{{site_root}}'
+        state: directory
+    - name: Create web site
+      win_iis_website:
+        name: '{{site_name}}'
+        state: started
+        application_pool: '{{app_pool}}'
+        physical_path: '{{site_root}}'
+    - name: Create port binding
+      win_iis_webbinding:
+        name: '{{site_name}}'
+        port: 80
+
+    - import_tasks: web-site-publish.yml
