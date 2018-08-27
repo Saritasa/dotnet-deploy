@@ -21,6 +21,10 @@ namespace DeployDemo.Service
             logger.Info("DemoService started.");
             logger.Info($"Environment: {environment.EnvironmentName}");
             logger.Info($"Production: {environment.IsProduction()}");
+
+            var version = AppVersion.Get();
+            logger.Info($"File version: {version.FileVersion}");
+            logger.Info($"Product version: {version.ProductVersion}");
         }
 
         protected override void OnStop()
