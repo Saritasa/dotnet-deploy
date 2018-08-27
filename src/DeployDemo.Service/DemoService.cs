@@ -1,4 +1,6 @@
-﻿using NLog;
+﻿using DeployDemo.Service.Support;
+using Microsoft.Extensions.Hosting;
+using NLog;
 using System.ServiceProcess;
 
 namespace DeployDemo.Service
@@ -14,6 +16,11 @@ namespace DeployDemo.Service
 
         protected override void OnStart(string[] args)
         {
+            var environment = new AppHostingEnvironment();
+
+            logger.Info("DemoService started.");
+            logger.Info($"Environment: {environment.EnvironmentName}");
+            logger.Info($"Production: {environment.IsProduction()}");
         }
 
         protected override void OnStop()
