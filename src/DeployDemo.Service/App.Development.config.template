@@ -21,4 +21,8 @@
   <appSettings>
     <add key="Environment" value="Development" xdt:Transform="SetAttributes" xdt:Locator="Match(key)" />
   </appSettings>
+  <connectionStrings>
+    <add name="Demo" connectionString="Data Source=$(DatabaseServer);Initial Catalog=DemoDB;User ID=$(DatabaseUsername);Password=$(DatabasePassword)"
+         xdt:Transform="Replace" xdt:Locator="Match(name)" />
+  </connectionStrings>
 </configuration>

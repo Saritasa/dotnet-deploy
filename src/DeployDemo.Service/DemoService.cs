@@ -1,6 +1,7 @@
 ﻿using DeployDemo.Service.Support;
 using Microsoft.Extensions.Hosting;
 using NLog;
+using System.Configuration;
 using System.ServiceProcess;
 
 namespace DeployDemo.Service
@@ -25,6 +26,7 @@ namespace DeployDemo.Service
             var version = AppVersion.Get();
             logger.Info($"File version: {version.FileVersion}");
             logger.Info($"Product version: {version.ProductVersion}");
+            logger.Info($"Connection string: {ConfigurationManager.ConnectionStrings["Demo"].ConnectionString}");
         }
 
         protected override void OnStop()

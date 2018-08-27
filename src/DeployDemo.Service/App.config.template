@@ -6,4 +6,7 @@
   <appSettings>
     <add key="Environment" value="" />
   </appSettings>
+  <connectionStrings>
+    <add name="Demo" connectionString="" />
+  </connectionStrings>
 </configuration>
