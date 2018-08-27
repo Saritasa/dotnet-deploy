@@ -1,9 +1,12 @@
-﻿using System.ServiceProcess;
+﻿using NLog;
+using System.ServiceProcess;
 
 namespace DeployDemo.Service
 {
     public partial class DemoService : ServiceBase
     {
+        private readonly Logger logger = LogManager.GetCurrentClassLogger();
+
         public DemoService()
         {
             InitializeComponent();
