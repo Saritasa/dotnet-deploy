@@ -14,3 +14,8 @@ If you want to practice with [PSGallery Yeoman Generator](https://github.com/Sar
 - [ASP.NET without scripts](https://github.com/Saritasa/dotnet-deploy/tree/no-scripts/asp-net)
 - [ASP.NET Core without scripts](https://github.com/Saritasa/dotnet-deploy/tree/no-scripts/asp-net-core)
 - [Windows Service without scripts](https://github.com/Saritasa/dotnet-deploy/tree/no-scripts/windows-service)
+
+Articles
+--------
+
+[Web Deploy Errors](docs/WebDeployErrors.md)
