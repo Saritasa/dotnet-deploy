@@ -11,6 +11,9 @@
     <add key="UnobtrusiveJavaScriptEnabled" value="true" />
     <add key="Environment" value="" />
   </appSettings>
+  <connectionStrings>
+    <add name="Demo" connectionString="" />
+  </connectionStrings>
   <system.web>
     <compilation debug="true" targetFramework="4.7" />
     <httpRuntime targetFramework="4.7" />

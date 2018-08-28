@@ -1,6 +1,7 @@
 ﻿using DeployDemo.Web.Models;
 using DeployDemo.Web.Support;
 using Microsoft.Extensions.Hosting;
+using System.Configuration;
 using System.Web.Mvc;
 
 namespace DeployDemo.Web.Controllers
@@ -18,6 +19,7 @@ namespace DeployDemo.Web.Controllers
                 IsProduction = environment.IsProduction(),
                 FileVersion = version.FileVersion,
                 ProductVersion = version.ProductVersion,
+                ConnectionString = ConfigurationManager.ConnectionStrings["Demo"].ConnectionString,
             };
 
             return View(info);

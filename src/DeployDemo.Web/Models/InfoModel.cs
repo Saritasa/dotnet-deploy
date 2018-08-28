@@ -9,5 +9,7 @@
         public string FileVersion { get; set; }
 
         public string ProductVersion { get; set; }
+
+        public string ConnectionString { get; set; }
     }
 }
