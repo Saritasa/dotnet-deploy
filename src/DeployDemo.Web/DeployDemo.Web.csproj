@@ -183,6 +183,7 @@
     </Compile>
     <Compile Include="Models\InfoModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Support\AppVersion.cs" />
     <Compile Include="Support\Util.cs" />
     <Compile Include="Support\WebHostingEnvironment.cs" />
   </ItemGroup>

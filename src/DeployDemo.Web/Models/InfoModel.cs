@@ -5,5 +5,9 @@
         public string Environment { get; set; }
 
         public bool IsProduction { get; set; }
+
+        public string FileVersion { get; set; }
+
+        public string ProductVersion { get; set; }
     }
 }

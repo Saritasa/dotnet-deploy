@@ -10,11 +10,14 @@ namespace DeployDemo.Web.Controllers
         public ActionResult Index()
         {
             var environment = new WebHostingEnvironment();
+            var version = AppVersion.Get();
 
             var info = new InfoModel
             {
                 Environment = environment.EnvironmentName,
                 IsProduction = environment.IsProduction(),
+                FileVersion = version.FileVersion,
+                ProductVersion = version.ProductVersion,
             };
 
             return View(info);
