@@ -14,18 +14,18 @@ Task pre-build -depends copy-configs, update-version -description 'Copy configs,
 {
     Initialize-MSBuild
 
-    # TODO: Fix solution name.
-    Invoke-NugetRestore -SolutionPath "$src\Example.sln"
+
+    Invoke-NugetRestore -SolutionPath "$src\DeployDemo.sln"
 
 }
 
 Task build -depends pre-build -description '* Build all projects.' `
     -requiredVariables @('Configuration') `
 {
-    # TODO: Fix solution name.
+
 
     $buildParams = @("/p:Environment=$Environment")
-    Invoke-ProjectBuild -ProjectPath "$src\Example.sln" -Configuration $Configuration `
+    Invoke-ProjectBuild -ProjectPath "$src\DeployDemo.sln" -Configuration $Configuration `
         -BuildParams $buildParams
 
 }
@@ -46,9 +46,9 @@ Task copy-configs -description 'Create configs based on App.config.template and 
         return
     }
 
-    # TODO: Fix project name.
 
-    $projectName = 'Example.App'
+
+    $projectName = 'DeployDemo.Service'
     $templateFile = "$src\$projectName\App.$Environment.config.template"
     $configFile = "$src\$projectName\App.$Environment.config"
 
@@ -102,8 +102,8 @@ Task code-analysis -depends pre-build `
     -requiredVariables @('Configuration', 'MaxWarnings') `
 {
     $buildParams = @("/p:Environment=$Environment")
-    # TODO: Fix solution name.
-    $solutionPath = "$src\Example.sln"
+
+    $solutionPath = "$src\DeployDemo.sln"
     $logFile = "$workspace\Warnings.txt"
 
     Exec { msbuild.exe $solutionPath '/m' '/t:Build' "/p:Configuration=$Configuration" '/verbosity:normal' '/fileLogger' "/fileloggerparameters:WarningsOnly;LogFile=$logFile" $buildParams }

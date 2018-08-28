@@ -24,8 +24,8 @@ Task publish-service -depends build, init-winrm -description '* Publish service 
     $session = Start-RemoteSession -ServerHost $AppServer
     $serviceCredential = New-Object System.Management.Automation.PSCredential($ServiceUsername,
         (ConvertTo-SecureString $ServicePassword -AsPlainText -Force))
-    # TODO: Fix project name.
-    $projectName = 'Example.Service'
+
+    $projectName = 'DeployDemo.Service'
     $binPath = "$src\$projectName\bin\$Configuration"
     $serviceName = $projectName
     $destinationPath = "$ApprootPath\$serviceName"
