@@ -1,1 +1,6 @@
-﻿<h1>ASP.NET Core Deploy Demo</h1>
+﻿@model DeployDemo.Web.Models.InfoModel
+
+<h1>ASP.NET Core Deploy Demo</h1>
+
+<p>Environment: @Model.Environment</p>
+<p>Production: @Model.IsProduction</p>
