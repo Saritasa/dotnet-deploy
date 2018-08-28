@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using DeployDemo.Web.Models;
+using DeployDemo.Web.Support;
+using Microsoft.Extensions.Hosting;
 using System.Web.Mvc;
 
 namespace DeployDemo.Web.Controllers
@@ -10,21 +9,15 @@ namespace DeployDemo.Web.Controllers
     {
         public ActionResult Index()
         {
-            return View();
-        }
+            var environment = new WebHostingEnvironment();
 
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
+            var info = new InfoModel
+            {
+                Environment = environment.EnvironmentName,
+                IsProduction = environment.IsProduction(),
+            };
 
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
+            return View(info);
         }
     }
 }
