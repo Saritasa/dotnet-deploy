@@ -1,0 +1,16 @@
+Expand-PsakeConfiguration `
+@{
+    Configuration = 'Debug'
+
+    AppServer = 'localhost'
+    ApprootPath = 'C:\approot'
+    AdminUsername = 'Administrator'
+    AdminPassword = 'secret'
+    ServiceUsername = 'Administrator'
+    ServicePassword = 'secret'
+
+    DatabaseServer = '.\SQLEXPRESS'
+    DatabaseUsername = 'sa'
+    DatabasePassword = '123'
+
+}
