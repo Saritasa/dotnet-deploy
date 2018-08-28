@@ -9,6 +9,8 @@ See other branches:
 - [ASP.NET Core](https://github.com/Saritasa/dotnet-deploy/tree/asp-net-core)
 - [Windows Service](https://github.com/Saritasa/dotnet-deploy/tree/windows-service)
 
+Every commit has issue number. You may ask questions in those issues.
+
 If you want to practice with [PSGallery Yeoman Generator](https://github.com/Saritasa/PSGallery/blob/master/docs/GettingStarted.md), check following branches:
 
 - [ASP.NET without scripts](https://github.com/Saritasa/dotnet-deploy/tree/no-scripts/asp-net)
