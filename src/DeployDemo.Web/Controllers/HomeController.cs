@@ -2,12 +2,14 @@
 using DeployDemo.Web.Support;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 
 namespace DeployDemo.Web.Controllers
 {
     public class HomeController : Controller
     {
-        public IActionResult Index([FromServices] IHostingEnvironment hostingEnvironment)
+        public IActionResult Index([FromServices] IHostingEnvironment hostingEnvironment,
+            [FromServices] IConfiguration configuration)
         {
             var version = AppVersion.Get();
 
@@ -17,6 +19,7 @@ namespace DeployDemo.Web.Controllers
                 IsProduction = hostingEnvironment.IsProduction(),
                 FileVersion = version.FileVersion,
                 ProductVersion = version.ProductVersion,
+                ConnectionString = configuration.GetConnectionString("Demo"),
             };
 
             return View(info);
