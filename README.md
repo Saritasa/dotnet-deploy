@@ -171,3 +171,8 @@ Create a credential with **secret file** type. Add credential parameter to job w
         SecretConfigPath = credentials("${env.SecretConfig}")
     }
 ```
+
+Articles
+--------
+
+[Config Transformations](docs/ConfigTransformations.md)
