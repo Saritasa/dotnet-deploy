@@ -29,8 +29,8 @@ Task publish-web -depends pre-publish -description '* Publish all web apps to sp
     -requiredVariables @('Configuration', 'WebServer', 'SiteName') `
 {
 
-    # TODO: Fix project name.
-    $projectName = 'Example.Web'
+
+    $projectName = 'DeployDemo.Web'
     $publishProfile = $null
 
     if (!$IsLinux)
@@ -54,8 +54,8 @@ Task publish-web -depends pre-publish -description '* Publish all web apps to sp
         Write-Information "Running command: rsync $params"
         Exec { rsync $params }
 
-        # TODO: Fix Systemd service name.
-        $serviceName = 'example-web'
+
+        $serviceName = 'deploy-demo'
         Exec { ssh $DeployUsername@$WebServer sudo /bin/systemctl restart $serviceName }
     }
     else

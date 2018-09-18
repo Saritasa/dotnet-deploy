@@ -22,9 +22,9 @@ Task pre-build -depends copy-configs, update-version -description 'Copy configs,
 Task build -depends pre-build -description '* Build all projects.' `
     -requiredVariables @('Configuration') `
 {
-    # TODO: Fix solution name.
 
-    Exec { dotnet build -c $Configuration "$src\Example.sln" }
+
+    Exec { dotnet build -c $Configuration "$src\DeployDemo.sln" }
 
 }
 
@@ -44,9 +44,9 @@ Task copy-configs -description 'Create configs based on App.config.template and 
         return
     }
 
-    # TODO: Fix project name.
 
-    $projectName = 'Example.Web'
+
+    $projectName = 'DeployDemo.Web'
     $templateFile = "$src\$projectName\appsettings.$Environment.json.template"
     $configFile = "$src\$projectName\appsettings.$Environment.json"
 
@@ -93,8 +93,8 @@ Task update-version -description 'Replace package version in web project.' `
     }
 
 
-    # TODO: Fix project name.
-    $fileName = "$src\Example\Example.csproj"
+
+    $fileName = "$src\DeployDemo.Web\DeployDemo.Web.csproj"
     $lines = Get-Content $fileName
     $lines | ForEach-Object { $_ -replace '<Version>[\d\.\w+-]*</Version>', "<Version>$InformationalVersion</Version>" `
         -replace '<AssemblyVersion>[\d\.]*</AssemblyVersion>', "<AssemblyVersion>$MajorMinorPatch.0</AssemblyVersion>" } |
@@ -106,8 +106,8 @@ Task code-analysis -depends pre-build `
     -requiredVariables @('Configuration', 'MaxWarnings') `
 {
     $buildParams = @("/p:Environment=$Environment")
-    # TODO: Fix solution name.
-    $solutionPath = "$src\Example.sln"
+
+    $solutionPath = "$src\DeployDemo.sln"
     $logFile = "$workspace\Warnings.txt"
 
     Exec { msbuild.exe $solutionPath '/m' '/t:Build' "/p:Configuration=$Configuration" '/verbosity:normal' '/fileLogger' "/fileloggerparameters:WarningsOnly;LogFile=$logFile" $buildParams }

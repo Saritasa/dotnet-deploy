@@ -2,7 +2,7 @@ Expand-PsakeConfiguration `
 @{
     Configuration = 'Debug'
     WebServer = 'localhost'
-    SiteName = 'example.com'
+    SiteName = 'web.example.com'
     DeployUsername = 'undefined'
     DeployPassword = 'undefined'
     WwwrootPath = 'C:\inetpub\wwwroot'
