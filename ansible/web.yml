@@ -2,26 +2,30 @@
   roles:
     - aspnetcore
   vars:
-    site_root: 'C:\inetpub\wwwroot\{{site_name}}'
+    site_root: '/var/www/{{site_name}}'
   tasks:
-    - name: Create app pool
-      win_iis_webapppool:
-        name: '{{app_pool}}'
-        attributes:
-          managedRuntimeVersion:
-    - name: Create web site directory
-      win_file:
-        path: '{{site_root}}'
-        state: directory
-    - name: Create web site
-      win_iis_website:
-        name: '{{site_name}}'
-        state: started
-        application_pool: '{{app_pool}}'
-        physical_path: '{{site_root}}'
-    - name: Create port binding
-      win_iis_webbinding:
-        name: '{{site_name}}'
-        port: 80
+    - name: Create Systemd service
+      copy:
+        content: |
+          [Unit]
+          Description=DeployDemo.Web ASP.NET Core site
 
-    - import_tasks: web-site-publish.yml
+          [Service]
+          WorkingDirectory={{site_root}}
+          ExecStart=/usr/bin/dotnet {{site_root}}/DeployDemo.Web.dll
+          Restart=always
+          # Restart service after 10 seconds if the dotnet service crashes:
+          RestartSec=10
+          SyslogIdentifier={{service_name}}
+          User={{deploy_username}}
+
+          [Install]
+          WantedBy=multi-user.target
+        dest: '/etc/systemd/system/{{service_name}}.service'
+      become: yes
+
+    - name: Start dotnet service
+      service:
+        name: deploy-demo
+        state: started
+      become: yes

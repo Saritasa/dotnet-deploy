@@ -1,0 +1,10 @@
+- name: Create nginx config
+  template:
+    src: nginx.j2
+    dest: '/etc/nginx/sites-enabled/{{site_name}}'
+  become: yes
+- name: Reload nginx
+  service:
+    name: nginx
+    state: reloaded
+  become: yes

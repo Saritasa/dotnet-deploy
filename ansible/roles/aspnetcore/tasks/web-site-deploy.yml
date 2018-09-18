@@ -1,0 +1,31 @@
+- name: Create deploy group
+  group:
+    name: deploy
+  become: yes
+
+- name: Create deploy user
+  user:
+    name: '{{deploy_username}}'
+    group: deploy
+  become: yes
+
+- name: Update sudoers config
+  copy:
+    dest: '/etc/sudoers.d/{{deploy_username}}'
+    content: "{{deploy_username}} ALL=(ALL) NOPASSWD:/bin/systemctl restart {{service_name}}\n"
+  become: yes
+
+- name: Add authorized SSH key
+  authorized_key:
+    user: '{{deploy_username}}'
+    key: '{{deploy_key}}'
+  become: yes
+
+- name: Grant permissions to file system
+  file:
+    path: '{{site_root}}'
+    owner: '{{deploy_username}}'
+    group: deploy
+    state: directory
+    mode: 0775
+  become: yes

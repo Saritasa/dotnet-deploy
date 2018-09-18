@@ -1,20 +1,16 @@
 webservers:
   hosts:
     web.saritasa.local:
-      app_pool: DemoAppPool
       site_name: web.example.com
-      deploy_username: DeployUser
-      deploy_password:
+      service_name: deploy-demo
+      deploy_username: deployuser
+      deploy_key: ssh-rsa xxxxxxxxxx
   vars:
-    ansible_become_method: runas
-    ansible_become_user: '{{ ansible_user }}'
-#    ansible_become_pass:
-    ansible_connection: winrm
-    ansible_winrm_server_cert_validation: ignore
-    ansible_winrm_transport: ntlm
+    ansible_python_interpreter: /usr/bin/python3
+#    ansible_user: root
 
-    ansible_user: administrator
-#    ansible_password:
-
-#    ansible_winrm_cert_pem: /path/to/certificate/public/key.pem
-#    ansible_winrm_cert_key_pem: /path/to/certificate/private/key.pem
+buildservers:
+  hosts:
+    jenkins.saritasa.local:
+  vars:
+    ansible_python_interpreter: /usr/bin/python3

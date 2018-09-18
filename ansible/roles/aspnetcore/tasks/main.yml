@@ -1,5 +1,12 @@
-- import_tasks: iis.yml
-- import_tasks: dotnetcore-wsh-21.yml
-- import_tasks: remove-default-sites.yml
-- import_tasks: web-management-service.yml
-- import_tasks: web-deploy.yml
+- import_role:
+    name: geerlingguy.nginx
+  become: yes
+- name: Enable Universe repository
+  apt_repository:
+    repo: deb http://archive.ubuntu.com/ubuntu bionic universe
+  become: yes
+- import_role:
+    name: ocha.dotnet-core
+  become: yes
+- import_tasks: web-site-deploy.yml
+- import_tasks: web-site-config.yml

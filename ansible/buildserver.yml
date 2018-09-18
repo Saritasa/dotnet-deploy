@@ -1,0 +1,36 @@
+- hosts: buildservers
+
+  roles:
+    - ocha.dotnet-core
+    - brentwg.powershell
+    - geerlingguy.jenkins
+
+  vars:
+    dotnet_package: dotnet-sdk-2.1
+    ansible_become: true
+    java_packages:
+      - openjdk-8-jdk
+    jenkins_plugins:
+      - workflow-aggregator
+      - ssh-agent
+      - git
+    jenkins_plugin_timeout: 120
+
+  tasks:
+    - name: Clone psake repository
+      git:
+        repo: 'https://github.com/psake/psake'
+        dest: /opt/psake
+    - name: Create psake wrapper
+      copy:
+        content: |
+          #!/usr/bin/env sh
+          pwsh -Command "& /opt/psake/src/psake.ps1 $@; if (\$psake.build_success -eq \$false) { exit 1 } else { exit 0 }"
+        dest: /usr/bin/psake
+        mode: 0755
+
+  pre_tasks:
+    - name: Enable Universe repository
+      apt_repository:
+        repo: deb http://archive.ubuntu.com/ubuntu bionic universe
+      become: yes
