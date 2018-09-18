@@ -4,8 +4,7 @@ Expand-PsakeConfiguration `
     WebServer = 'web.saritasa.local'
     SiteName = 'web.example.com'
     DeployUsername = $env:DeployUsername
-    DeployPassword = $env:DeployPassword
-    WwwrootPath = 'C:\inetpub\wwwroot'
+    WwwrootPath = '/var/www'
 
 
 
