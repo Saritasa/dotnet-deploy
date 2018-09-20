@@ -1,43 +1,41 @@
-ASP.NET Core Deployment
-=======================
+ASP.NET Core Deployment on Linux
+================================
 
-Set up Server
--------------
+Set up Build Server
+-------------------
 
-### Enable WinRM
+Install .NET Core SDK, PowerShell Core, psake.
 
-Enable WinRM over HTTPS on server, generate certificate, add firewall rule:
+You can do it with Ansible:
 
-```powershell
-Install-PackageProvider NuGet -Force; Install-Module Saritasa.WinRM -Force; Install-WinrmHttps
+```sh
+ansible-galaxy install brentwg.powershell geerlingguy.jenkins geerlingguy.nginx ocha.dotnet-core
+ansible-playbook -i inventory.yml --limit buildservers buildserver.yml -Kv
 ```
 
-More details: [WinRM Configuration](https://github.com/Saritasa/PSGallery/blob/master/docs/WinRMConfiguration.md)
-
-### Trust Server
-
-Add client to trusted certificate authorities list on build server or developer PC:
-
-```powershell
-Install-Module Saritasa.Web -Force
-Import-TrustedSslCertificate web.saritasa.local 5986
-```
-
-### Configure Server
+Set up Web Server
+-----------------
 
 Edit `inventory.yml`. Set correct values:
 
 - hostname
+- site_name
+- service_name
 - deploy_username
-- deploy_password
+- deploy_key
 - ansible_username
-- ansible_password
+
+Install Ansible modules:
+
+```sh
+ansible-galaxy install brentwg.powershell geerlingguy.jenkins geerlingguy.nginx ocha.dotnet-core
+```
 
 Execute Ansible playbook:
 
 ```sh
 cd ansible
-ansible-playbook -i inventory.yml web.yml -v
+ansible-playbook -i inventory.yml --limit webservers web.yml -Kv
 ```
 
 Scaffold Scripts
@@ -80,18 +78,9 @@ Required Software
 
 You need following software installed:
 
-- [Visual Studio 2017](https://www.visualstudio.com/downloads/)
 - [psake](https://github.com/psake/psake)
 - [Git](https://git-scm.com/)
-- [GitVersion](https://gitversion.readthedocs.io/)
 - [.NET Core SDK 2.1](https://www.microsoft.com/net/download)
-
-You can easily install most software with Chocolatey package manager. To do that run `PowerShell` as administrator and type commands:
-
-```powershell
-PS> iwr https://chocolatey.org/install.ps1 -UseBasicParsing | iex
-PS> choco install psake git gitversion.portable dotnetcore-sdk
-```
 
 Build Project
 -------------
@@ -172,7 +161,18 @@ Create a credential with **secret file** type. Add credential parameter to job w
     }
 ```
 
+Create SSH credential with `deployuser` name. Use it in `sshagent` block:
+
+```groovy
+    script {
+        sshagent(['deployuser']) {
+            sh script: "psake publish-web"
+        }
+    }
+```
+
 Articles
 --------
 
-[Config Transformations](docs/ConfigTransformations.md)
+- [Config Transformations](docs/ConfigTransformations.md)
+- [Psake on Linux](docs/PsakeOnLinux.md)
