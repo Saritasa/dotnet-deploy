@@ -1,0 +1,29 @@
+- import_role:
+    name: geerlingguy.nginx
+  become: yes
+- name: Open 80 port
+  firewalld:
+    service: http
+    permanent: true
+    state: enabled
+  become: yes
+  when: ansible_os_family == 'RedHat'
+- name: Reload firewalld
+  service:
+    name: firewalld
+    state: reloaded
+  become: yes
+  when: ansible_os_family == 'RedHat'
+- name: Install libsemanage-python
+  yum:
+    name: libsemanage-python
+    state: present
+  become: yes
+  when: ansible_os_family == 'RedHat'
+- name: Allow nginx connection to upstream
+  seboolean:
+    name: httpd_can_network_connect
+    state: yes
+    persistent: yes
+  become: yes
+  when: ansible_os_family == 'RedHat'

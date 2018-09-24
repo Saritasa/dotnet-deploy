@@ -34,3 +34,4 @@
       apt_repository:
         repo: deb http://archive.ubuntu.com/ubuntu bionic universe
       become: yes
+      when: ansible_os_family == 'Debian'

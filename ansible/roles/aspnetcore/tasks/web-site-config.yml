@@ -1,7 +1,7 @@
 - name: Create nginx config
   template:
     src: nginx.j2
-    dest: '/etc/nginx/sites-enabled/{{site_name}}'
+    dest: '/etc/nginx/conf.d/{{site_name}}.conf'
   become: yes
 - name: Reload nginx
   service:

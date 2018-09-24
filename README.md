@@ -10,7 +10,7 @@ You can do it with Ansible:
 
 ```sh
 ansible-galaxy install brentwg.powershell geerlingguy.jenkins geerlingguy.nginx ocha.dotnet-core
-ansible-playbook -i inventory.yml --limit buildservers buildserver.yml -Kv
+ansible-playbook -i inventory.yml buildserver.yml -Kv
 ```
 
 Set up Web Server
@@ -35,7 +35,7 @@ Execute Ansible playbook:
 
 ```sh
 cd ansible
-ansible-playbook -i inventory.yml --limit webservers web.yml -Kv
+ansible-playbook -i inventory.yml web.yml -Kv
 ```
 
 Scaffold Scripts

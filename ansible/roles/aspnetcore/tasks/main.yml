@@ -1,12 +1,21 @@
-- import_role:
-    name: geerlingguy.nginx
-  become: yes
+- import_tasks: install-nginx.yml
+
 - name: Enable Universe repository
   apt_repository:
     repo: deb http://archive.ubuntu.com/ubuntu bionic universe
   become: yes
+  when: ansible_os_family == 'Debian'
 - import_role:
     name: ocha.dotnet-core
   become: yes
+
 - import_tasks: web-site-deploy.yml
+
 - import_tasks: web-site-config.yml
+
+- name: Install rsync
+  yum:
+    name: rsync
+    state: present
+  become: yes
+  when: ansible_os_family == 'RedHat'
