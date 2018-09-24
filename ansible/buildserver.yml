@@ -8,15 +8,32 @@
   vars:
     dotnet_package: dotnet-sdk-2.1
     ansible_become: true
-    java_packages:
-      - openjdk-8-jdk
     jenkins_plugins:
       - workflow-aggregator
       - ssh-agent
       - git
-    jenkins_plugin_timeout: 120
+    jenkins_plugin_timeout: 300
 
   tasks:
+    - name: Open 8080 port
+      firewalld:
+        port: 8080/tcp
+        permanent: true
+        state: enabled
+      become: yes
+      when: ansible_os_family == 'RedHat'
+    - name: Reload firewalld
+      service:
+        name: firewalld
+        state: reloaded
+      become: yes
+      when: ansible_os_family == 'RedHat'
+    - name: Install Git
+      yum:
+        name: git
+        state: present
+      become: yes
+      when: ansible_os_family == 'RedHat'
     - name: Clone psake repository
       git:
         repo: 'https://github.com/psake/psake'
@@ -35,3 +52,13 @@
         repo: deb http://archive.ubuntu.com/ubuntu bionic universe
       become: yes
       when: ansible_os_family == 'Debian'
+    - name: Choose Java version (Debian)
+      set_fact:
+        java_packages:
+          - openjdk-8-jre
+      when: ansible_os_family == 'Debian'
+    - name: Choose Java version (RedHat)
+      set_fact:
+        java_packages:
+          - java-1.8.0-openjdk
+      when: ansible_os_family == 'RedHat'
