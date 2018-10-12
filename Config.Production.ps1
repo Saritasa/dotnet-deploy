@@ -1,8 +1,8 @@
 Expand-PsakeConfiguration `
 @{
     Configuration = 'Release'
-    WebServer = 'web.example.com'
-    SiteName = 'example.com'
+    WebServer = 'web.saritasa.local'
+    SiteName = 'web.example.com'
     DeployUsername = $env:DeployUsername
     DeployPassword = $env:DeployPassword
     WwwrootPath = 'C:\inetpub\wwwroot'

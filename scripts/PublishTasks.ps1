@@ -31,8 +31,8 @@ Task publish-web -depends pre-publish -description '* Publish all web apps to sp
 
     $buildParams = @("/p:Environment=$Environment")
 
-    # TODO: Fix project name.
-    $projectName = 'Example.Web'
+
+    $projectName = 'DeployDemo.Web'
     $packagePath = "$workspace\$projectName.zip"
     Invoke-PackageBuild -ProjectPath "$src\$projectName\$projectName.csproj" `
         -PackagePath $packagePath -Configuration $Configuration -BuildParams $buildParams
