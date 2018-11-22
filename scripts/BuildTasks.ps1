@@ -69,7 +69,7 @@ Task copy-configs -description 'Create configs based on App.config.template and 
 
 }
 
-Task update-version -description 'Replace package version in web project.' `
+Task update-version -depends get-version -description 'Replace package version in web project.' `
     -requiredVariables @('MajorMinorPatch', 'InformationalVersion') `
 {
     if ($Environment -eq 'Development') # It's a developer machine.
@@ -77,25 +77,8 @@ Task update-version -description 'Replace package version in web project.' `
         return
     }
 
-    $branchName = Exec { git rev-parse --abbrev-ref HEAD }
-
-    if ($branchName -like 'origin/*')
-    {
-        throw "Expected local branch. Got: $branchName"
-    }
-
-    if ($branchName -eq 'master')
-    {
-        $tag = Exec { git describe --exact-match --tags }
-        if (!$tag)
-        {
-            throw "Production releases without tag are not allowed."
-        }
-    }
-
-
-    Exec { GitVersion.exe /updateassemblyinfo }
-
+    Update-AssemblyInfoFile -Path $src -AssemblyVersion $AssemblySemVer `
+        -AssemblyFileVersion $AssemblySemVer -AssemblyInfoVersion $InformationalVersion
 }
 
 Task code-analysis -depends pre-build `
