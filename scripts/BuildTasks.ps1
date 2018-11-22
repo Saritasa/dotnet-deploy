@@ -81,23 +81,6 @@ Task update-version -description 'Replace package version in web project.' `
         return
     }
 
-    $branchName = Exec { git rev-parse --abbrev-ref HEAD }
-
-    if ($branchName -like 'origin/*')
-    {
-        throw "Expected local branch. Got: $branchName"
-    }
-
-    if ($branchName -eq 'master')
-    {
-        $tag = Exec { git describe --exact-match --tags }
-        if (!$tag)
-        {
-            throw "Production releases without tag are not allowed."
-        }
-    }
-
-
     Update-AssemblyInfoFile -Path $src -AssemblyVersion $AssemblySemVer `
         -AssemblyFileVersion $AssemblySemVer -AssemblyInfoVersion $InformationalVersion
 
