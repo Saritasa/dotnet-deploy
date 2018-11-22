@@ -76,24 +76,6 @@ Task update-version -description 'Replace package version in web project.' `
         return
     }
 
-    $branchName = Exec { git rev-parse --abbrev-ref HEAD }
-
-    if ($branchName -like 'origin/*')
-    {
-        throw "Expected local branch. Got: $branchName"
-    }
-
-    if ($branchName -eq 'master')
-    {
-        $tag = Exec { git describe --exact-match --tags }
-        if (!$tag)
-        {
-            throw "Production releases without tag are not allowed."
-        }
-    }
-
-
-
     $fileName = "$src\DeployDemo.Web\DeployDemo.Web.csproj"
     $lines = Get-Content $fileName
     $lines | ForEach-Object { $_ -replace '<Version>[\d\.\w+-]*</Version>', "<Version>$InformationalVersion</Version>" `
