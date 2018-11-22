@@ -40,5 +40,4 @@ Jenkins                | Execute `psake clean`.
 clean (psake)          | Revert all changes in working copy.
 Jenkins                | Execute `psake publish-web`.
 copy-configs (psake)   | Replace variable placeholders with values in Web.Production.config.
-update-version (psake) | Execute `GitVersion /updateassemblyinfo`.
-GitVersion             | Add or update AssemblyVersion, AssemblyInformationalVersion, AssemblyFileVersion attributes.
+update-version (psake) | Add or update AssemblyVersion, AssemblyInformationalVersion, AssemblyFileVersion attributes.
