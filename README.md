@@ -83,14 +83,13 @@ You need following software installed:
 - [Visual Studio 2017](https://www.visualstudio.com/downloads/)
 - [psake](https://github.com/psake/psake)
 - [Git](https://git-scm.com/)
-- [GitVersion](https://gitversion.readthedocs.io/)
 - [.NET Core SDK 2.1](https://www.microsoft.com/net/download)
 
 You can easily install most software with Chocolatey package manager. To do that run `PowerShell` as administrator and type commands:
 
 ```powershell
 PS> iwr https://chocolatey.org/install.ps1 -UseBasicParsing | iex
-PS> choco install psake git gitversion.portable dotnetcore-sdk
+PS> choco install psake git dotnetcore-sdk
 ```
 
 Build Project
