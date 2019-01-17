@@ -21,4 +21,4 @@ If you want to practice with [PSGallery Yeoman Generator](https://github.com/Sar
 Articles
 --------
 
-[Web Deploy Errors](docs/WebDeployErrors.md)
+[.NET Deploy](https://github.com/Saritasa/dotnet-docs/blob/master/DotNetDeploy/README.md)
